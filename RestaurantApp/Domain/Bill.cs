@@ -1,12 +1,21 @@
-﻿using RestaurantApp.Domain.Items;
-using RestaurantApp.Domain.Persons;
-
-namespace RestaurantApp.Domain
-{
+﻿
+namespace RestaurantApp
+{ 
     public class Bill
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Customer Custom { get; set; }
         public List<FoodItems> Items { get; set; }
+
+        public Bill() { }
+
+        public Bill(int id)
+        {
+            Id = Guid.NewGuid();
+            
+        }
+
+
+
     }
 }

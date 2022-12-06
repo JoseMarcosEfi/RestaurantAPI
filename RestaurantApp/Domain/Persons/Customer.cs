@@ -1,4 +1,4 @@
-﻿namespace RestaurantApp.Domain.Persons
+﻿namespace RestaurantApp
 {
     public class Customer
     {
