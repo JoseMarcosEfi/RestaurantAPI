@@ -1,8 +1,13 @@
-﻿namespace RestaurantApp
+﻿using Flunt.Notifications;
+using Flunt.Validations;
+using System.ComponentModel.DataAnnotations;
+
+namespace RestaurantApp
 {
-    public class FoodItems
+    public class FoodItems : Notifiable<Notification>
     {
-        public Guid Id { get; private set; }
+        [Key]
+        public Guid FoodId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public string Description { get; set; }
@@ -11,12 +16,30 @@
         {
         }
 
-        public FoodItems(Guid id, string name, double price, string description)
+        public FoodItems(string name, double price, string description)
         {
-            Id = Guid.NewGuid();
+            FoodId = Guid.NewGuid();
             Name = name;
             Price = price;
             Description = description;
+            Validate();
+        }
+
+        private void Validate()
+        {
+            var contract = new Contract<FoodItems>()
+                .IsNotNullOrEmpty(Name, "Name")
+                .IsGreaterOrEqualsThan(Name, 3, "Name")
+                .IsNotNullOrEmpty(Description, "Description")
+                .IsGreaterOrEqualsThan(Description, 5, "Description");
+            AddNotifications(contract);
+        }
+        public void EditeInfo(string name, double price, string description)
+        {
+            Name = name;
+            Price = price;
+            Description = description;
+            Validate();
         }
     }
 }

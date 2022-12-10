@@ -1,24 +1,44 @@
-﻿
+﻿using Flunt.Notifications;
+using Flunt.Validations;
+using System.ComponentModel.DataAnnotations;
+
 namespace RestaurantApp
-{ 
-    public class Bill
+{
+    public class Bill : Notifiable<Notification>
     {
-        public Guid Id { get; private set; }
-        public List<Customer> Custom { get; private set; }
-        public List<FoodItems> Items { get; private set; }
-        public double Ammount { get; set; }
+        [Key]
+        public Guid BillId { get; set; }
+        public List<Customer> Custom { get; private set; } = new List<Customer>();
+        public List<FoodItems> Items { get; private set; } = new List<FoodItems>();
+        public double Amount { get; set; }
 
         public Bill() { }
 
-        public Bill(int id, double ammount)
+        public Bill(int id, double amount, List<Customer> customers, List<FoodItems> foodItems)
         {
-            Id = Guid.NewGuid();
-            Custom = new List<Customer>();
-            Items = new List<FoodItems>();
-            Ammount = ammount;
+            BillId = Guid.NewGuid();
+            Custom = customers;
+            Items = foodItems;
+            Amount = amount;
+            Validate();
         }
 
+        private void Validate()
+        {
+            var contract = new Contract<Bill>()
+                .IsNotNull(Amount, "Amount");
+            AddNotifications(contract);
 
+        }
+
+        public void EditeInfo(double amount, byte numberOfPerson)
+        {
+            Amount = amount;
+
+
+            Validate();
+
+        }
 
     }
 }

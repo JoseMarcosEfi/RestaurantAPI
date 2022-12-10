@@ -1,10 +1,5 @@
-﻿namespace RestaurantApp.EndPoints.Bills
+﻿namespace RestaurantApp
 {
-    public class BillRequest
-    {
-        public List<FoodItems> ListOfItems { get; set; }
-        public byte NumberOfPersons { get; set; }
-        public List<Customer> Customers { get; set; }
-        public double Ammount { get; set; }
-    }
+    public record BillRequest(List<FoodItems> ListOfItems, byte NumberOfPersons, List<Customer> Customers, double Amount);
+
 }

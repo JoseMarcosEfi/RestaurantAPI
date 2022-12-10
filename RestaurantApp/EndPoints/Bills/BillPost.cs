@@ -1,7 +1,6 @@
-﻿using RestaurantApp.EndPoints.Bills;
-
-namespace RestaurantApp
+﻿namespace RestaurantApp
 {
+
     public class BillPost
     {
         public static string Template => "/bill";
@@ -9,15 +8,15 @@ namespace RestaurantApp
         public static Delegate Handle => Action;
         public static IResult Action(BillRequest billRequest, ApplicationDbContext context)
         {
+
             var Bill = new Bill()
             {
-                Ammount = billRequest.Ammount,
-                
+                Amount = billRequest.Amount
             };
             context.Bills.Add(Bill);
             context.SaveChanges();
 
-            return Results.Created($"/Bills/{Bill.Id}", Bill.Id);
+            return Results.Created($"/Bills/{Bill.BillId}", Bill.BillId);
         }
     }
 }
